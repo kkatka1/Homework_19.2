@@ -28,7 +28,7 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/ваш_репозиторий.git
+   git clone https://github.com/kkatka1/Homework_19.2
 
 Перейдите в директорию проекта:
 cd Homework_19.2
