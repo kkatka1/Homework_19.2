@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(
         max_length=100,
@@ -56,6 +57,13 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
+    manufactured_at = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Дата производства",
+        help_text="Введите дату производства товара",
+    )
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
@@ -63,6 +71,3 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
