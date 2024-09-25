@@ -11,16 +11,19 @@ class Category(models.Model):
         blank=True, verbose_name="Описание", help_text="Введите описание категории"
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
         ordering = ["name"]
 
-    def __str__(self):
-        return self.name
+
 
 
 class Product(models.Model):
+    objects = None
     name = models.CharField(
         max_length=100,
         verbose_name="Наименование",
@@ -57,17 +60,12 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
-    manufactured_at = models.DateField(
-        null=True,
-        blank=True,
-        verbose_name="Дата производства",
-        help_text="Введите дату производства товара",
-    )
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["-created_at"]
 
-    def __str__(self):
-        return self.name
+
