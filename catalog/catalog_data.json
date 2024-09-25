@@ -1,0 +1,73 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Смартфоны",
+      "description": "Б/у смартфоны разных брендов и моделей"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "ноутбуки",
+      "description": "Б/у ноутбуки для дома и работы"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+      "name": "телефизоры",
+      "description": "Б/у телефизоры различных диагоналей и производителей"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+      "name": "Планшеты",
+      "description": "Б/у планшеты разных брендов"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "iPhone 12 64Gb",
+      "description": "Смартфон 12 в хорошем состоянии, 64 Гб памяти",
+      "image": "",
+      "category": 3,
+      "price": "50000.00",
+      "created_at": "2024-09-24T20:33:04.332Z",
+      "updated_at": "2024-09-24T20:33:04.332Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Sumsung",
+      "description": "Ноутбук 512 Гб SSD, 16 Гб ОЗУ",
+      "image": "",
+      "category": 4,
+      "price": "35000.00",
+      "created_at": "2024-09-24T20:34:10.944Z",
+      "updated_at": "2024-09-24T20:34:10.944Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Lg Oled",
+      "description": "Телефизор 65 дюймов, с поддержкой 4К",
+      "image": "products/image/pngwing_8OpmDCL.com.png",
+      "category": 5,
+      "price": "88000.00",
+      "created_at": "2024-09-24T20:35:15.007Z",
+      "updated_at": "2024-09-24T20:35:15.007Z"
+    }
+  }
+]
