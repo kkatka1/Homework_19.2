@@ -60,6 +60,8 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
+
+
     def __str__(self):
         return self.name
 
@@ -67,5 +69,35 @@ class Product(models.Model):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["-created_at"]
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        related_name="versions",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Продукт",
+    )
+    version_number = models.IntegerField(verbose_name='номер версии')
+
+    version_name = models.CharField(max_length=150, verbose_name='название версии')
+
+    is_current = models.BooleanField(default=False, verbose_name='признак текущей версии')
+
+    class Meta:
+        verbose_name = "Версия"
+        verbose_name_plural = "Версии"
+        ordering = ["-is_current", "-version_number"]
+        constraints = [
+            models.UniqueConstraint(fields=['product', 'is_current'],
+                                    condition=models.Q(is_current=True),
+                                    name='unique_active_version')
+        ]
+
+    def __str__(self):
+        return f'{self.version_name} - {self.version_number}'
+
+
 
 
