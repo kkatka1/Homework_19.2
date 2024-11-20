@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, render
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def home(request):
@@ -36,7 +37,7 @@ class ContactView(TemplateView):
     template_name = "catalog/contacts.html"
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
@@ -50,7 +51,12 @@ class ProductCreateView(CreateView):
             context_data['formset'] = ProductFormset(instance=self.object)
         return context_data
 
+
     def form_valid(self, form):
+        """
+        Исключение некоторых слов
+        Автоматическая привязка пользователя к продукту
+        """
         cleaned_data = form.cleaned_data['name'].lower()
         forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
                            'радар']
@@ -59,11 +65,16 @@ class ProductCreateView(CreateView):
             if word in cleaned_data:
                 form.add_error('name', 'Данное название не подходит.')
                 return self.form_invalid(form)
-        form.owner = self.request.user
+
+
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
@@ -90,7 +101,7 @@ class ProductUpdateView(UpdateView):
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
 
