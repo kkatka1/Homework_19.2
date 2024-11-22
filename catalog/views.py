@@ -23,7 +23,7 @@ class ProductListView(ListView):
 
     #catalog/blog_list.html
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
