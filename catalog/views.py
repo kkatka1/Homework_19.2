@@ -1,11 +1,13 @@
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory, modelform_factory
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Version, Category
 
 from django.shortcuts import get_object_or_404, render
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -79,6 +81,19 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
 
+    #def dispatch(self, request, *args, **kwargs):
+    #    """
+     #   Проверка, что пользователь - владелец или имеет необходимые права.
+     #   """
+     #   product = self.get_object()
+     #   if request.user != product.owner and not request.user.has_perm([
+     #       'catalog.can_unpublish_product',
+     #       'catalog.change_description',
+     #       'catalog.change_category'
+     #   ]):
+     #       return HttpResponseForbidden('Вы не можете редактировать этот продукт.')
+     #   return super().dispatch(request, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -99,6 +114,17 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def get_form_class(self):
+        """
+        Возвращает форму в зависимости от роли пользователя.
+        """
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.change_description')and user.has_perm('catalog.change_category'):
+            return ProductModeratorForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
