@@ -66,17 +66,21 @@ class Product(models.Model):
     owner = models.ForeignKey(User, verbose_name='владелец', help_text='укажите владельца', on_delete=SET_NULL,
                               blank=True, null=True)
 
-    def __str__(self):
-        return self.product_name
+    is_published = models.BooleanField(default=False, verbose_name='статус')
 
     def __str__(self):
         return self.name
+
+
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["-created_at"]
-
+        permissions = [
+            ("can_unpublish_product", "can unpublish product"),("change_description", "Can change description"),
+                                                                ("change_category", "Can change category")
+        ]
 class Version(models.Model):
     product = models.ForeignKey(
         Product,

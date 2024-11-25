@@ -8,6 +8,8 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ("id", "email")
 
 
+
+
 from django.contrib import admin
 
 # Register your models here.
