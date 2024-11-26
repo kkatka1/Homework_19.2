@@ -18,12 +18,10 @@ def home(request):
 #def contacts(request):
 #   return render(request, 'contacts.html')
 
+
 class ProductListView(ListView):
     model = Product
 
-
-
-    #catalog/blog_list.html
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
@@ -81,19 +79,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
 
-    #def dispatch(self, request, *args, **kwargs):
-    #    """
-     #   Проверка, что пользователь - владелец или имеет необходимые права.
-     #   """
-     #   product = self.get_object()
-     #   if request.user != product.owner and not request.user.has_perm([
-     #       'catalog.can_unpublish_product',
-     #       'catalog.change_description',
-     #       'catalog.change_category'
-     #   ]):
-     #       return HttpResponseForbidden('Вы не можете редактировать этот продукт.')
-     #   return super().dispatch(request, *args, **kwargs)
-
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -133,13 +118,4 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 
 
-#def product_list(request):
-#    products = Product.objects.all()
-#    context = {"products": products}
-#    return render(request, 'blog_list.html', context)
-
-#def product_detail(request, pk):
-#    product = get_object_or_404(Product, pk=pk)
-#    context = {"product": product}
-#    return render(request, 'product_detail.html', context)
 
