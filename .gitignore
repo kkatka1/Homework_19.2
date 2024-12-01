@@ -174,3 +174,4 @@ pyrightconfig.json
 .idea/
 
 Task.md
+.env

@@ -12,6 +12,9 @@ black = "^24.8.0"
 pillow = "^10.4.0"
 ipython = "^8.27.0"
 pytils = "^0.4.1"
+redis = "^5.2.0"
+python-dotenv = "^1.0.1"
+python-decouple = "^3.8"
 
 [tool.poetry.dev-dependencies]
 
