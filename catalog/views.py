@@ -11,6 +11,8 @@ from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from catalog.services import get_products_from_cache
+
 
 def home(request):
     return render(request, 'home.html')
@@ -21,6 +23,9 @@ def home(request):
 
 class ProductListView(ListView):
     model = Product
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
